@@ -4,12 +4,7 @@ import { Provider } from 'react-redux';
 import propTypes from 'prop-types';
 
 import Home from './Home';
-
-const Navigate = (props) => {
-    console.log("navigate-props: ", props);
-    // If props.match.params.path exist in DB,
-    // programatically navigate
-}
+import Navigate from './Navigate';
 
 const Root = ({ store }) => {
     return(
@@ -17,7 +12,7 @@ const Root = ({ store }) => {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" render={
-                        () => <Home />
+                        (props) => <Home { ...props } />
                     }/>
                     <Route path="/:path" render={
                         (props) => <Navigate { ...props } />
