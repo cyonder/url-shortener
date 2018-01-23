@@ -23,7 +23,6 @@ class Navigate extends Component{
     }
 
     render(){
-        console.log("navigate-props: ", this.props);
         return true;
     }
 
