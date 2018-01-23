@@ -13,6 +13,6 @@ test:
 
 production:
   <<: *default
-  database: url-shortener_production
-  username: url-shortener
-  password: <%= ENV['URL-SHORTENER_DATABASE_PASSWORD'] %>
+  database: da6bh8ummqsbm8
+  username: tsdrbcmirsqthg
+  password: f5689c67b9a2587e96d0982b614ba978f5a48e63579cd9a7cd29a79b54fb901f
