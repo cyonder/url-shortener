@@ -6,9 +6,9 @@ class Links extends Component{
     renderLinks(){
         let links = this.props.links;
 
-        if(Object.keys(links).length > 0){
-
-        }
+        // if(Object.keys(links).length > 0){
+        //
+        // }
 
         return Object.keys(links)
                     .sort((a,b) => b - a)
@@ -18,7 +18,7 @@ class Links extends Component{
                         return(
                             <tr className="link" key={index}>
                                 <td className="col-a">
-                                    <a href={`http://${links[key].original_url}`}>{links[key].original_url}</a>
+                                    <a href={`${links[key].original_url}`}>{links[key].original_url}</a>
                                 </td>
                                 <td className="col-b">
                                     <Link to={`${links[key].path}`}>{links[key].short_url}</Link>

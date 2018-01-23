@@ -38,8 +38,12 @@ class Home extends Component {
         const randomPath = Math.random().toString(36).substr(2, 6).toUpperCase();
         const targetURL = `${ROOT_URL}/${randomPath}`;
 
+        // Remove protocol if exist
+        values.original_url = values.original_url.replace(/(^\w+:|^)\/\//, '');
         values.short_url = targetURL; // Add targetURL to values object.
         values.path = randomPath;
+
+        // console.log("values: ", values);
 
         this.props.createLink(values, () => {
             this.props.reset();
