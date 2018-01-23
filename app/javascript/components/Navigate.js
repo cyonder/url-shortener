@@ -17,11 +17,8 @@ class Navigate extends Component{
             let link = Object.keys(nextLinks)
                         .filter(key => nextLinks[key].path === path)
                         .map(key => nextLinks[key])[0];
-            // console.log(link.original_url);
-            // console.log(window.location.protocol);
-            // console.log(window.location.host);
+
             window.location.href = `https://${link.original_url}`;
-            // window.open(link.original_url,"_self")
         }
     }
 
