@@ -36,7 +36,7 @@ class Home extends Component {
 
     onSubmit(values){
         const randomPath = Math.random().toString(36).substr(2, 6).toUpperCase();
-        const targetURL = `${ROOT_URL}/${randomPath}`;
+        const targetURL = `cyonder.me/${randomPath}`;
 
         // Remove protocol if exist
         values.original_url = values.original_url.replace(/(^\w+:|^)\/\//, '');

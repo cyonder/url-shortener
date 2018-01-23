@@ -11,7 +11,7 @@ export const fetchLinksSuccess = (links) => {
 
 export const createLink = (link, callback) => {
     return dispatch => {
-        return axios.post(`http://${ROOT_API_URL}/links`, link)
+        return axios.post(`${ROOT_API_URL}/links`, link)
             .then(response => {
                 callback();
             })
@@ -20,7 +20,7 @@ export const createLink = (link, callback) => {
 
 export const fetchLinks = () => {
     return dispatch => {
-        return axios.get(`http://${ROOT_API_URL}/links`)
+        return axios.get(`${ROOT_API_URL}/links`)
             .then(response => {
                 dispatch( fetchLinksSuccess(response.data) );
             })
