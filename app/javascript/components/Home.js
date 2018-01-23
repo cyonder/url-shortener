@@ -79,7 +79,7 @@ class Home extends Component {
                 </header>
                 <Links links={this.props.links} />
                 <footer>
-                    <span className="footer-text">You can remove the links you created as long as you have cookies stored in your browser</span>
+                    <span className="footer-text">Currently you cannot delete any links. Cookie session will be implemented very soon!</span>
                 </footer>
             </div>
         )
