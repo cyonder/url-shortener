@@ -67,8 +67,6 @@ class Home extends Component {
     }
 
     render(){
-        console.log("props: ", this.props);
-
         return(
             <div id="app">
                 <header className="header">
