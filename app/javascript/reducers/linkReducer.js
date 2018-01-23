@@ -1,16 +1,9 @@
-import {
-    CREATE_LINK,
-    FETCH_LINK
-} from '../constants';
+import { FETCH_LINKS } from '../constants';
 
-const initialState = {
-    link: null,
-}
-
-export default function linkReducer(state = initialState, action){
+export default function linkReducer(state = {}, action){
     switch(action.type){
-        case FETCH_LINK:
-            return {...state, link: action.payload}
+        case FETCH_LINKS:
+            return { ...state, ...action.payload }
         default:
             return state;
     }

@@ -3,32 +3,31 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
 import { createLink, fetchLinks } from 'actions';
-import { ROOT_URL } from '../constants';
+import { ROOT_URL, URL_REGEX } from '../constants';
 
 class Home extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            links: [],
-        };
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     componentDidMount(){
-        this.props.fetchLinks(links => {
-            this.setState({ links })
-        });
+        this.props.fetchLinks();
     }
 
-    renderTextField(field){
+    renderField(field){
+        const { meta: { touched, error } } = field;
+        const activeClassName = error ? "disabled" : null;
+
         return(
             <div className="input-group">
                 <input
-                    className="form-input input-lg"
+                    className="form-input input-shorten"
                     type="text"
                     placeholder={ field.placeholder }
-                    { ...field.input }/>
-                <button className="btn input-group-btn btn-lg btn-shorten">Shorten URL</button>
+                    { ...field.input }
+                />
+                <button className={`btn-shorten btn input-group-btn ${activeClassName}`}><span>Shorten URL</span></button>
             </div>
         );
     }
@@ -41,37 +40,33 @@ class Home extends Component {
         values.path = randomPath;
 
         this.props.createLink(values, () => {
-            // this.props.history.push('/');
-            // window.location = `http://${original_url}`;
+            this.props.fetchLinks();
         });
     }
 
     renderForm(){
         const { handleSubmit } = this.props;
 
-        console.log("home-props: ", this.props);
-
         return(
             <form onSubmit={ handleSubmit(this.onSubmit) }>
                 <Field
                     name="original_url"
                     placeholder="Your original URL here"
-                    component={ this.renderTextField }
+                    component={ this.renderField }
                 />
-                 <p className="form-input-hint">All cyonder.me URLs are public and can be accessed by anyone</p>
+                <p className="form-input-hint">All cyonder.me URLs are public and can be accessed by anyone</p>
             </form>
         );
     }
 
     renderLinks(){
-        console.log("state-Links: ", this.state.links);
-        const links = this.state.links;
+        const links = this.props.links;
 
-        return links.map( (link, index) => {
+        return Object.keys(links).map((key, index) => {
             return(
                 <tr className="link" key={index}>
-                    <td>{link.original_url}</td>
-                    <td>{link.short_url}</td>
+                    <td><a href={`http://${links[key].original_url}`}>{links[key].original_url}</a></td>
+                    <td><a href={`http://${links[key].short_url}`}>{links[key].short_url}</a></td>
                     <td>5 Hours Ago</td>
                 </tr>
             )
@@ -89,25 +84,49 @@ class Home extends Component {
                         </div>
                     </div>
                 </header>
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Original URL</th>
-                            <th>Short URL</th>
-                            <th>Created</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        { this.renderLinks() }
-                    </tbody>
-                </table>
+                <main>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Original URL</th>
+                                <th>Short URL</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { this.renderLinks() }
+                        </tbody>
+                    </table>
+                </main>
+                <footer>
+                    <span className="footer-text">You can remove the links you created as long as you have cookies stored in your browser</span>
+                </footer>
             </div>
         )
     };
 };
 
+const validate = values => {
+    const errors = {};
+
+    if(!values.original_url){
+        errors.original_url = "Required!";
+    }else if(!URL_REGEX.test(values.original_url)){
+        errors.original_url = "Invalid URL";
+    }
+
+    return errors
+}
+
+const mapStateToProps = (state) => {
+    return {
+        links: state.links
+    }
+};
+
 export default reduxForm({
-    form: 'url'
+    form: 'url',
+    validate,
 })(
-    connect(null, { createLink, fetchLinks })(Home)
+    connect(mapStateToProps, { createLink, fetchLinks })(Home)
 );
